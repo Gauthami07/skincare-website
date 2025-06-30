@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Natural Skin Solutions</title>
+  <style>
+   
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+  body {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+   background: url(natural\ skincare.jpg);
+   background-size: cover;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  header {
+    
+    text-align: center;
+    padding: 40px 20px;
+    background-color:beige;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 8px;
+  
+    
+  }
+  h1 {
+    font-size: 28px;
+  }
+  .highlight {
+    color: green;
+  }
+  p {
+    font-size: 18px;
+    margin: 20px 0;
+  }
+  button {
+    background: green;
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+    font-weight: bold;
+  }
+  button:hover {
+    background: #45a049;
+  }
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>One Stop Solution for <span class="highlight">Natural Solutions</span> for Your Skin Problems!</h1>
+    <p>Take a quiz to know more about your skin type and behaviour of your skin.</p>
+    <button onclick="startQuiz()">Take Quiz</button>
+  </header>
+
+  <script>
+    function startQuiz() {
+      window.location.href = "quiz.html";
+    }
+  </script>
+</body>
+</html>

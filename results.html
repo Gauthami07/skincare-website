@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Skin Solutions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+      text-align: center;
+    }
+    .results-container {
+      background: #fff;
+      padding: 20px;
+      margin: auto;
+      max-width: 700px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+    h2 {
+      text-align: center;
+      color: green;
+    }
+    ul {
+      list-style-type: square;
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="results-container">
+    <h2>Your Skin Behaviour & Recommended Natural Solutions</h2>
+    <p id="skinType"></p>
+    <ul id="solutionsList"></ul>
+  </div>
+
+  <script>
+    const answers = JSON.parse(localStorage.getItem("skinQuizAnswers"));
+    console.log("answers", answers);
+
+    const scores = {
+      "Oily skin": 0,
+      "Dry skin": 0,
+      "Sensitive skin": 0,
+      "Acne-prone skin": 0,
+      "Normal skin": 0
+    };
+
+    if (answers) {
+      // Evaluate each answer and increase points
+      if (["Often", "Always"].includes(answers[0])) scores["Oily skin"]++;
+      if (["Very sensitive", "Extremely sensitive"].includes(answers[1])) scores["Sensitive skin"]++;
+      if (["Frequently", "Constantly"].includes(answers[2])) scores["Acne-prone skin"]++;
+      if (answers[3] === "Tight") scores["Dry skin"]++;
+      if (answers[3] === "Oily") scores["Oily skin"]++;
+      if (answers[4] === "Highly visible") scores["Oily skin"]++;
+      if (answers[5] === "Often" || answers[5] === "Always") scores["Sensitive skin"]++;
+      if (answers[6] === "Never") scores["Dry skin"]++;
+      if (answers[7] === "Burns easily") scores["Sensitive skin"]++;
+      if (["Often", "Always"].includes(answers[8])) scores["Dry skin"]++;
+      if (answers[9] === "Normal") scores["Normal skin"]++;
+      if (answers[9] === "Oily") scores["Oily skin"]++;
+      if (answers[9] === "Dry") scores["Dry skin"]++;
+      if (answers[9] === "Combination") {
+        scores["Oily skin"]++;
+        scores["Dry skin"]++;
+      }
+    }
+
+    console.log("scores", scores);
+
+    // Find highest scoring skin types
+    let maxScore = 0;
+    let resultTypes = [];
+
+    for (const [type, score] of Object.entries(scores)) {
+      if (score > maxScore) {
+        maxScore = score;
+        resultTypes = [type];
+      } else if (score === maxScore && score > 0) {
+        resultTypes.push(type);
+      }
+    }
+
+    let skinTypeText = resultTypes.length > 0
+      ? `Your skin seems to be: ${resultTypes.join(", ")}.`
+      : "We couldn't determine your exact skin type.";
+
+    document.getElementById("skinType").innerText = skinTypeText;
+
+    const naturalSolutions = {
+      "Oily skin": [
+        "Use aloe vera to soothe inflammation and control oil.",
+        "Apply turmeric masks to reduce acne.",
+        "Green tea helps regulate oil production.",
+        "Avoid heavy creams; choose light moisturizers."
+      ],
+      "Dry skin": [
+        "Use coconut oil to deeply moisturize.",
+        "Honey is a natural humectant to lock in moisture.",
+        "Oatmeal masks soothe dryness.",
+        "Drink lots of water for hydration."
+      ],
+      "Sensitive skin": [
+        "Use aloe vera to calm redness.",
+        "Witch hazel helps reduce irritation.",
+        "Avoid harsh exfoliants.",
+        "Use lavender oil for its soothing effects."
+      ],
+      "Acne-prone skin": [
+        "Turmeric has antibacterial properties.",
+        "Clay masks help absorb excess oil.",
+        "Witch hazel can reduce inflammation.",
+        "Apple cider vinegar helps balance skin pH."
+      ],
+      "Normal skin": [
+        "Maintain a balanced diet with fruits and vegetables.",
+        "Use mild cleansers like honey.",
+        "Hydrate well.",
+        "Aloe vera gel for overall skin health."
+      ]
+    };
+
+    const solutionsList = document.getElementById("solutionsList");
+
+    if (resultTypes.length === 0) {
+      naturalSolutions["Normal skin"].forEach(sol => {
+        const li = document.createElement("li");
+        li.textContent = sol;
+        solutionsList.appendChild(li);
+      });
+    } else {
+      resultTypes.forEach(type => {
+        naturalSolutions[type].forEach(sol => {
+          const li = document.createElement("li");
+          li.textContent = sol;
+          solutionsList.appendChild(li);
+        });
+      });
+    }
+  </script>
+</body>
+</html>
